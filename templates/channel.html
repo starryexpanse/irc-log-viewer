@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<h1>All logs for #{{ channel }}</h1>
+
+<ol class="years">
+{% for year in dates %}
+
+   <li><h2>{{ year.year }}</h2>
+      <ol class="months">
+         {% for month in year.months %}
+         <li><h3>{{ month.month }}</h3>
+            <ol class="days">
+               {% for date in month.dates %}
+                  <li><a href="{{ date.url }}">{{ date.date }}</a></li>
+               {% endfor %}
+            </ol>
+         </li>
+         {% endfor %}
+      </ol>
+   </li>
+
+{% endfor %}
+</ol>
+
+{% endblock %}

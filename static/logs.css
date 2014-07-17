@@ -1,0 +1,75 @@
+.time {
+   text-align: right;
+   color: #ddd;
+   word-break: keep-all;
+   white-space: nowrap;
+}
+
+html, body {
+   padding: 1em;
+   margin: 0;
+   font-family: Georgia, "Palatino Linotype", "Times New Roman", serif;
+   font-size: 13pt;
+}
+
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 568px) 
+and (orientation : portrait),
+only screen
+and (min-device-width : 320px) 
+and (max-device-width : 480px) 
+and (orientation : portrait) {
+   html, body {
+      padding: 0;
+      font-size: 40pt;
+   }
+
+   .entry.chan_msg .speaker {
+      border-right: inherit;
+   }
+}
+
+.entries {
+   width: 100%;
+}
+.entry > * {
+   padding: .2em;
+   padding-bottom: .5em;
+   vertical-align: top;
+}
+
+.entry > .info {
+   width: 100%;
+}
+
+.entry.chan_msg .speaker {
+   text-align: right;
+   color: blue;
+   border-right: 8px solid transparent ;
+}
+.entry.chan_msg .message {
+   width: 100%;
+   word-break: break-word;
+}
+
+.entry.user_leave,
+.entry.user_quit,
+.entry.user_join,
+.entry.bot_connect,
+.entry.bot_disconnect,
+.entry.user_change_nick
+{
+   color: #999;
+   text-align: center;
+}
+
+ol {
+   list-style-type: none;
+   margin-top: .5em;
+   margin-bottom: .5em;
+}
+
+ol.years, ol.months {
+   padding: 0;
+}

@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+  <head>
+      <title>Starry Expanse IRC Logs</title>
+      <meta name="viewport" width="device-width">
+      <script type="text/javascript" src="{{ url_for('static', filename='jquery-1.11.1.min.js') }} "></script>
+      <script type="text/javascript" src="{{ url_for('static', filename='logs.js') }}"></script>
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='logs.css') }}" />
+   </head>
+   <body>
+   
+   <a href="../../../">Back to date listing</a>
+
+   <table class="entries">
+      {% for entry in entries %}
+         <tr class="entry {{ entry.kind }}">
+         {% if entry.kind == 'chan_msg' %}
+            <td class='speaker'>
+               {{ entry.who }}
+            </td>
+            <td class='message'>
+               {{ entry.msg | urlize(target='_blank') }}
+            </td>
+         {% elif entry.kind == 'user_leave' %}
+            <td class='info' colspan='2'>
+               {{ entry.who }} has left the channel.
+            </td>
+         {% elif entry.kind == 'user_quit' %}
+            <td class='info' colspan='2'>
+               {{ entry.who }} has quit the network.
+            </td>
+         {% elif entry.kind == 'bot_disconnect' %}
+            <td class='info' colspan='2'>
+               The bot has disconnected from the channel.
+            </td>
+         {% elif entry.kind == 'bot_connect' %}
+            <td class='info' colspan='2'>
+               The bot has connected to the channel.
+            </td>
+         {% elif entry.kind == 'user_join' %}
+            <td class='info' colspan='2'>
+               {{ entry.who }} has joined the channel.
+            </td>
+         {% elif entry.kind == 'user_join' %}
+            <td class='info' colspan='2'>
+               {{ entry.who }} is now known as {{ entry.msg }}.
+            </td>
+         {% endif %}
+            <td class='time'>
+               {{ entry.time }}
+            </td>
+         </tr>
+      {% endfor %}
+   </table>
+   </body>
+
+</html>

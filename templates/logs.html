@@ -1,14 +1,7 @@
-<!doctype html>
-<html>
-  <head>
-      <title>Starry Expanse IRC Logs</title>
-      <meta name="viewport" width="device-width">
-      <script type="text/javascript" src="{{ url_for('static', filename='jquery-1.11.1.min.js') }} "></script>
-      <script type="text/javascript" src="{{ url_for('static', filename='logs.js') }}"></script>
-      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='logs.css') }}" />
-   </head>
-   <body>
+{% extends "base.html" %}
    
+{% block body %}
+
    <a href="../../../">Back to date listing</a>
 
    <table class="entries">
@@ -52,6 +45,5 @@
          </tr>
       {% endfor %}
    </table>
-   </body>
 
-</html>
+{% endblock %}

@@ -1,5 +1,8 @@
 import sys
 import os
+import logging
+
+logging.basicConfig(stream=sys.stderr)
 
 thisdir = os.path.abspath(os.path.dirname(__file__))
 sys.path.insert(0, thisdir)

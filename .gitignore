@@ -2,3 +2,4 @@ local
 lib
 bin
 include
+*.pyc

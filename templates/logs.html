@@ -2,7 +2,14 @@
    
 {% block body %}
 
-   <a href="../../../">Back to date listing</a>
+   <a class='back-button' href="../../../">&larr; Back to date listing</a>
+
+   &middot;
+
+   <a class='skip-bottom' href="#last">Skip to bottom of page</a>
+
+   <input type="checkbox" id='showHideTime' checked><label for='showHideTime'>Hide timestamps</label>
+
 
    <table class="entries">
       {% for entry in entries %}
@@ -40,6 +47,9 @@
             </td>
          {% endif %}
             <td class='time'>
+               {% if loop.last %} 
+                  <a name='last' />
+               {% endif %}
                {{ entry.time }}
             </td>
          </tr>

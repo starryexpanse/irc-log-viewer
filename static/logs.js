@@ -1,18 +1,18 @@
 $(function() {
 
-   $(document).on('click', 'tr.entry', function(event) {
-      var theRow = $(event.target).closest('tr.entry');
-      var theCell = theRow.children('td:last-child');
-
-      var time = theCell.find('.time');
-      if (time.size()) {
-         time.remove();
+   var time = $('.time');
+   var cbox = $('#showHideTime');
+   
+   function showHideTime() {
+      if (cbox[0].checked) {
+         time.hide();
       }
       else {
-         time = $('<div class=time></div>').text(theRow.attr('data-time'));
-         theCell.append(time);
+         time.show();
       }
-      event.stopPropagation();
-   });
+   }
+
+   showHideTime();
+   cbox.click(showHideTime);
 
 });

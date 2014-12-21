@@ -12,6 +12,7 @@
 
 
    <table class="entries">
+   {% filter add_anchor_last_row %}
       {% for entry in entries %}
          <tr class="entry {{ entry.kind }}">
          {% if entry.kind == 'chan_msg' %}
@@ -47,13 +48,11 @@
             </td>
          {% endif %}
             <td class='time'>
-               {% if loop.last %} 
-                  <a name='last' />
-               {% endif %}
                {{ entry.time }}
             </td>
          </tr>
       {% endfor %}
+   {% endfilter %}
    </table>
 
 {% endblock %}

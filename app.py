@@ -6,51 +6,48 @@ from sqlalchemy import func, distinct, desc, select
 
 from sqlalchemy.ext.hybrid import hybrid_property
 
-#from flask.ext.security import Security, SQLAlchemyUserDatastore, \
-#    UserMixin, RoleMixin, login_required
+from flask.ext.security import Security, SQLAlchemyUserDatastore, \
+    UserMixin, RoleMixin, login_required
 
 from itertools import groupby
 import bleach
 import datetime
 
+from bs4 import BeautifulSoup
+
 from os import environ as env
-
-
-# Models
-
-#roles_users = db.Table('roles_users',
-#        db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
-#        db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
-#
-#class Role(db.Model, RoleMixin):
-#    id = db.Column(db.Integer(), primary_key=True)
-#    name = db.Column(db.String(80), unique=True)
-#    description = db.Column(db.String(255))
-#
-#class User(db.Model, UserMixin):
-#    id = db.Column(db.Integer, primary_key=True)
-#    email = db.Column(db.String(255), unique=True)
-#    password = db.Column(db.String(255))
-#    active = db.Column(db.Boolean())
-#    confirmed_at = db.Column(db.DateTime())
-#    roles = db.relationship('Role', secondary=roles_users,
-#                            backref=db.backref('users', lazy='dynamic'))
 
 app = Flask(__name__)
 db = SQLAlchemy(app)
 
-@app.before_first_request
-def setup():
-   global app
 
-   app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://%s:%s@%s/IrcLogs' % (
-      env['LOGS_USERNAME'],
-      env['LOGS_PASSWORD'],
-      env['LOGS_HOSTNAME'],
-   )
+app.config['DEBUG'] = True
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://%s:%s@%s/IrcLogs' % (
+   env['LOGS_USERNAME'],
+   env['LOGS_PASSWORD'],
+   env['LOGS_HOSTNAME'],
+)
 
-   app.config['SQLALCHEMY_ECHO'] = True
-   app.config['SECRET_KEY'] = env['LOGS_SECRET_KEY']
+app.config['SQLALCHEMY_ECHO'] = True
+app.config['SECRET_KEY'] = env['LOGS_SECRET_KEY']
+
+
+@app.template_filter('add_anchor_last_row')
+def add_anchor_last_row(s):
+   s = str(s)
+   soup = BeautifulSoup(s, 'html.parser')
+
+   td = soup.find_all('tr')[-1].find_all('td')[1]
+   a = soup.new_tag('a')
+   a['name'] = 'last'
+   for content in td.contents:
+      a.append(content)
+   td.clear()
+   td.append(a)
+
+   return str(soup)
+
+   #return s[::-1]
 
 class Entry(db.Model):
    __tablename__ = 'ab_logs'
@@ -94,13 +91,8 @@ def hfDate(dateArr):
    month = hfMonth(month)
    return "%s %s, %s" % (month, date, year)
 
-# Setup Flask-Security
-# user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-# security = Security(app, user_datastore)
-
 @app.route('/')
 @app.route('/irc/')
-#@login_required
 def index():
    return redirect(url_for('logs'))
 

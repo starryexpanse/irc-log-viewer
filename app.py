@@ -21,15 +21,18 @@ app = Flask(__name__)
 db = SQLAlchemy(app)
 
 
-app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://%s:%s@%s/IrcLogs' % (
-   env['LOGS_USERNAME'],
-   env['LOGS_PASSWORD'],
-   env['LOGS_HOSTNAME'],
-)
-
-app.config['SQLALCHEMY_ECHO'] = True
-app.config['SECRET_KEY'] = env['LOGS_SECRET_KEY']
+@app.before_first_request
+def setup():
+   global app
+   app.config['DEBUG'] = True
+   app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://%s:%s@%s/IrcLogs' % (
+      env['LOGS_USERNAME'],
+      env['LOGS_PASSWORD'],
+      env['LOGS_HOSTNAME'],
+   )
+   
+   app.config['SQLALCHEMY_ECHO'] = True
+   app.config['SECRET_KEY'] = env['LOGS_SECRET_KEY']
 
 
 @app.template_filter('add_anchor_last_row')

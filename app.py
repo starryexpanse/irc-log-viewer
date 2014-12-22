@@ -37,18 +37,18 @@ def setup():
 
 @app.template_filter('add_anchor_last_row')
 def add_anchor_last_row(s):
-   s = str(s)
+   s = unicode(s)
    soup = BeautifulSoup(s, 'html.parser')
 
-   td = soup.find_all('tr')[-1].find_all('td')[1]
+   td = soup.find_all('tr')[-1].find_all('td')[-2]
    a = soup.new_tag('a')
    a['name'] = 'last'
-   for content in td.contents:
+   for content in list(td.contents):
       a.append(content)
    td.clear()
    td.append(a)
 
-   return str(soup)
+   return unicode(soup)
 
    #return s[::-1]
 

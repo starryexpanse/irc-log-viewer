@@ -40,7 +40,14 @@ def add_anchor_last_row(s):
    s = unicode(s)
    soup = BeautifulSoup(s, 'html.parser')
 
-   td = soup.find_all('tr')[-1].find_all('td')[-2]
+   alltrs = soup.find_all('tr')
+   if len(alltrs) == 0:
+      return s
+   tds = alltrs[-1].find_all('td')
+   index = -2
+   if len(tds) < 2:
+      index = -1
+   td = tds[index]
    a = soup.new_tag('a')
    a['name'] = 'last'
    for content in list(td.contents):

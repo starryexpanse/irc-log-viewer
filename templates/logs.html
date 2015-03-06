@@ -34,6 +34,10 @@
             <td class='info' colspan='2'>
                The bot has disconnected from the channel.
             </td>
+         {% elif entry.kind == 'bot_join' %}
+            <td class='info' colspan='2'>
+               The bot has joined the channel.
+            </td>
          {% elif entry.kind == 'bot_connect' %}
             <td class='info' colspan='2'>
                The bot has connected to the channel.
@@ -42,9 +46,13 @@
             <td class='info' colspan='2'>
                {{ entry.who }} has joined the channel.
             </td>
-         {% elif entry.kind == 'user_join' %}
+         {% elif entry.kind == 'user_nick_change' %}
             <td class='info' colspan='2'>
                {{ entry.who }} is now known as {{ entry.msg }}.
+            </td>
+         {% elif entry.kind == 'notice' %}
+            <td class='info' colspan='2'>
+               *** {{ entry.msg }}
             </td>
          {% endif %}
             <td class='time'>
@@ -56,3 +64,4 @@
    </table>
 
 {% endblock %}
+

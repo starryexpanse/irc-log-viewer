@@ -73,3 +73,16 @@ ol {
 ol.years, ol.months {
    padding: 0;
 }
+
+.navbuttons {
+   display: flex;
+   margin-bottom: 2em;
+}
+
+.navbuttons div {
+   flex-grow: 1;
+}
+
+.navbuttons div:last-child {
+   text-align: right;
+}

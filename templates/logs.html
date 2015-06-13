@@ -1,6 +1,24 @@
 {% extends "base.html" %}
    
 {% block body %}
+   
+   <div class='navbuttons' >
+      <div>
+         <a class='btn btn-default {% if not prev_browsable_day %} disabled {% endif %} ' 
+            href="{{ prev_browsable_day_link }}"
+         >
+            &laquo; Previous Day 
+         </a>
+      </div>
+
+      <div>
+         <a class='btn btn-default {% if not next_browsable_day %} disabled {% endif %} '
+            href="{{ next_browsable_day_link }}"
+         >
+            Next Day &raquo;
+         </a>
+      </div>
+   </div>
 
    <a class='back-button' href="../../../">&larr; Back to date listing</a>
 
@@ -8,7 +26,9 @@
 
    <a class='skip-bottom' href="#last">Skip to bottom of page</a>
 
+
    <input type="checkbox" id='showHideTime' checked><label for='showHideTime'>Hide timestamps</label>
+   <br />
 
 
    <table class="entries">

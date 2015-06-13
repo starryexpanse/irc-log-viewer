@@ -139,13 +139,48 @@ def channel(channel):
 @app.route('/irc/logs/<channel>/<int:year>/<int:month>/<int:day>/')
 def day(channel, year, month, day):
    date = datetime.date(year, month, day)
+
+   prev_browsable_day = Entry.query.filter(
+         Entry.when < format_date(date) + ' 00:00:00',
+   ).order_by(Entry.when.desc()).first()
+
+   next_browsable_day = Entry.query.filter(
+         Entry.when >= format_date(next_day(date)) + ' 00:00:00',
+   ).order_by(Entry.when.desc()).first()
+
+   prev_browsable_day_link = next_browsable_day_link = "#"
+
+   def url_for_date(d):
+      return url_for(
+         'day',
+         channel = channel,
+         year = d.year,
+         month = d.month,
+         day = d.day
+      )
+
+   if prev_browsable_day:
+      prev_browsable_day = prev_browsable_day.when
+      prev_browsable_day_link = url_for_date(prev_browsable_day)
+
+   if next_browsable_day:
+      next_browsable_day = next_browsable_day.when
+      next_browsable_day_link = url_for_date(next_browsable_day)
+
    entries = Entry.query.filter(
          Entry.channel == '#' + channel,
          Entry.when >= format_date(date) + ' 00:00:00',
          Entry.when < format_date(next_day(date)) + ' 00:00:00',
       ).order_by(Entry.when)
 
-   return render_template('logs.html', entries=entries)
+   return render_template(
+      'logs.html',
+      entries = entries,
+      prev_browsable_day = prev_browsable_day,
+      next_browsable_day = next_browsable_day,
+      prev_browsable_day_link = prev_browsable_day_link,
+      next_browsable_day_link = next_browsable_day_link
+   )
 
 @app.route('/irc/logs/<int:year>/<int:month>/<int:day>/')
 def day_backwards_compatibility(year, month, day):

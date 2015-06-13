@@ -146,7 +146,7 @@ def day(channel, year, month, day):
 
    next_browsable_day = Entry.query.filter(
          Entry.when >= format_date(next_day(date)) + ' 00:00:00',
-   ).order_by(Entry.when.desc()).first()
+   ).order_by(Entry.when).first()
 
    prev_browsable_day_link = next_browsable_day_link = "#"
 
